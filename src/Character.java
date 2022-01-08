@@ -18,27 +18,66 @@ public class Character extends Entity{
         this.inventory = inventory;
         switch (element) {
             case "fire":
-                super.fire = true;
+                fire = true;
+                strength = 10;
+                break;
             case "ice":
-                super.ice = true;
+                ice = true;
+                dexterity = 10;
+                break;
             case "earth":
-                super.earth = true;
+                earth = true;
+                charisma = 10;
         }
     }
 
     @Override
     void receiveDamage(int health) {
-        super.currentHealth -= health;
+        currentHealth -= health;
     }
 
     @Override
     void getDamage(Spell spell, Character enemy) {}
 
     void buy (Potion potion) {
-        if (inventory.getCash() > potion.getPrice() && inventory.weightRemained() > potion.getWeight()) {
+        if (inventory.getCash() >= potion.getPrice() && inventory.weightRemained() >= potion.getWeight()) {
             inventory.addPotion(potion);
+        } else {
+            System.out.println("Not enough money");
         }
     }
+
+    @Override
+    public String toString() {
+        return "Character{" +
+                "characterName='" + characterName + '\'' +
+                ", x=" + x +
+                ", y=" + y +
+                ", inventory=" + inventory +
+                ", exp=" + exp +
+                ", level=" + level +
+                ", strength=" + strength +
+                ", charisma=" + charisma +
+                ", dexterity=" + dexterity +
+                ", spells=" + spells +
+                ", currentHealth=" + currentHealth +
+                ", maxHealth=" + maxHealth +
+                ", currentMana=" + currentMana +
+                ", maxMana=" + maxMana +
+                ", fire=" + fire +
+                ", ice=" + ice +
+                ", earth=" + earth +
+                '}';
+    }
+
+    public String toString2() {
+        return this.getClass() + " {" +
+                "characterName='" + characterName + '\'' +
+                ", exp=" + exp +
+                ", level=" + level +
+                '}';
+    }
+
 }
 
 class Warrior extends Character {

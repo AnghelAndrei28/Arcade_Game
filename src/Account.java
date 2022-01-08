@@ -7,7 +7,13 @@ public class Account {
     List<Character> characters;
     int playedGames;
 
-    class Information {
+    public Account(Information information, List<Character> characters, int playedGames) {
+        this.information = information;
+        this.characters = characters;
+        this.playedGames = playedGames;
+    }
+
+    static class Information {
         private final Credentials credentials;
         private final TreeSet<String> favGames;
         private final String name;
@@ -36,9 +42,9 @@ public class Account {
             return favGames;
         }
 
-        class InformationBuilder {
+        static class InformationBuilder {
             private final Credentials credentials;
-            private TreeSet<String> favGames = new TreeSet<String>(new MyComparator());
+            private final TreeSet<String> favGames = new TreeSet<String>();
             private final String name;
             private String country;
 
@@ -59,13 +65,34 @@ public class Account {
 
             Information build() {
                 Information information = new Information(this);
-                validateInformation(information);
+                if(validateInformation(information)) {
+//                    return information;
+                }
                 return information;
             }
 
-            private void validateInformation(Information information) {
-                System.out.println("Verificare");
+            private boolean validateInformation(Information information) {
+                return true;
             }
         }
+
+        @Override
+        public String toString() {
+            return "Information{" +
+                    "credentials=" + credentials +
+                    ", favGames=" + favGames +
+                    ", name='" + name + '\'' +
+                    ", country='" + country + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "information=" + information +
+                ", characters=" + characters +
+                ", playedGames=" + playedGames +
+                '}';
     }
 }

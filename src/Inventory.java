@@ -4,7 +4,7 @@ import java.util.List;
 public class Inventory {
     List<Potion> potions = new ArrayList<Potion>();
     private final int maxWeight;
-    private int cash = 20;
+    private int cash = 50;
 
     public Inventory(int maxWeight) {
         this.maxWeight = maxWeight;
@@ -52,5 +52,14 @@ public class Inventory {
 
     public int getCash() {
         return cash;
+    }
+
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "potions=" + potions +
+                ", maxWeight=" + maxWeight +
+                ", cash=" + cash +
+                '}';
     }
 }

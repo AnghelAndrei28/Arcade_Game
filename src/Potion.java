@@ -7,9 +7,15 @@ public interface Potion {
 
 class HealthPotion implements Potion{
 
-    private final int price = 10;
-    private final int weight = 8;
-    private final int value = 20;
+    private final int price;
+    private final int weight;
+    private final int value;
+
+    HealthPotion() {
+        price = 10;
+        weight = 8;
+        value = 100;
+    }
 
     @Override
     public void usePotion(Character character) {
@@ -43,9 +49,15 @@ class HealthPotion implements Potion{
 
 class ManaPotion implements Potion{
 
-    private final int price = 20;
-    private final int weight = 10;
-    private final int value = 20;
+    private final int price;
+    private final int weight;
+    private final int value;
+
+    ManaPotion() {
+        price = 20;
+        weight = 10;
+        value = 20;
+    }
 
     @Override
     public void usePotion(Character character) {
