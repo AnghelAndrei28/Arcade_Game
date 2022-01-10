@@ -25,12 +25,14 @@ public abstract class Entity {
         }
     }
 
-    void useSpell(Spell spell, Character enemy) {
+    void useSpell(Spell spell, Entity enemy) {
         if(currentMana >= spell.manaPrice) {
             currentMana -= spell.manaPrice;
             getDamage(spell, enemy);
         } else {
-            System.out.println("Not enough mana");
+            System.out.println("Not enough mana. Normal attack!");
+            getDamage(null, enemy);
+            //Todo: Adaugat atac normal
         }
     }
 
@@ -39,6 +41,6 @@ public abstract class Entity {
     }
 
     abstract void receiveDamage(int health);
-    abstract void getDamage(Spell spell, Character enemy);
+    abstract void getDamage(Spell spell, Entity enemy);
 
 }

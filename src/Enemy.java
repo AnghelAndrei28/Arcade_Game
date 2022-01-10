@@ -38,7 +38,7 @@ public class Enemy extends Entity implements CellElement {
 
     @Override
     public String toCharacter() {
-        return "E";
+        return "E ";
     }
 
     @Override
@@ -46,26 +46,36 @@ public class Enemy extends Entity implements CellElement {
         Random r = new Random();
         if(r.nextBoolean()) {
             currentHealth -= health;
+        } else {
+            System.out.println("Dodge!!!!!!");
         }
-        System.out.println("Dodge!!!!!!");
     }
 
     @Override
-    void getDamage(Spell spell, Character enemy) {
+    void getDamage(Spell spell, Entity enemy) {
         if(spell != null) {
-            Random r = new Random();
-            if (r.nextBoolean()) {
-                enemy.receiveDamage(spell.damage * 2);
-                System.out.println("Critical!!!");
+            if((spell instanceof Fire && !enemy.fire) || (spell instanceof Ice && !enemy.ice) || (spell instanceof Earth && !enemy.earth)) {
+                Random r = new Random();
+                if (r.nextBoolean()) {
+                    enemy.receiveDamage(spell.damage * 2);
+                    System.out.println("Critical hit!");
+                    System.out.println("Damage: " + spell.damage + "from" + spell.getClass());
+                } else {
+                    enemy.receiveDamage(spell.damage);
+                    System.out.println("Damage" + spell.damage + spell.getClass());
+                }
+            } else {
+                System.out.println("Protected against the spell " + spell.getClass());
             }
-            enemy.receiveDamage(spell.damage);
         } else {
             Random r = new Random();
+            System.out.println("Basic attack");
             if (r.nextBoolean()) {
                 enemy.receiveDamage(20 * 2);
-                System.out.println("Critical!!!");
+                System.out.println("Critical hit!");
+            } else {
+                enemy.receiveDamage(20);
             }
-            enemy.receiveDamage(20);
         }
     }
 }

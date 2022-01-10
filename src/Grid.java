@@ -44,7 +44,7 @@ public class Grid extends ArrayList<ArrayList<Cell>> {
     void printMap() {
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
-                System.out.print(this.get(j).get(i).visited ? this.get(j).get(i).cellElement.toCharacter() + " " : "?");
+                System.out.print(this.get(j).get(i).visited ? this.get(j).get(i).cellElement.toCharacter() : "? ");
             }
             System.out.print("\n");
         }

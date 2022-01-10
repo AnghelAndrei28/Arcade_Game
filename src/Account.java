@@ -5,9 +5,9 @@ public class Account {
 
     Information information;
     List<Character> characters;
-    int playedGames;
+    long playedGames;
 
-    public Account(Information information, List<Character> characters, int playedGames) {
+    public Account(Information information, List<Character> characters, long playedGames) {
         this.information = information;
         this.characters = characters;
         this.playedGames = playedGames;

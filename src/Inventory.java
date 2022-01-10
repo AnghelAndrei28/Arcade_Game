@@ -18,25 +18,11 @@ public class Inventory {
         potions.remove(potion);
     }
 
-    void useHealthPotion(Character character) {
-        for (Potion potion : potions) {
-            if(potion instanceof HealthPotion) {
-                potion.usePotion(character);
-                eliminatePotion(potion);
-                break;
-            }
-        }
+    void usePotion (Character character, Potion potion) {
+            potion.usePotion(character);
+            eliminatePotion(potion);
     }
 
-    void useManaPotion(Character character) {
-        for (Potion potion : potions) {
-            if(potion instanceof ManaPotion) {
-                potion.usePotion(character);
-                eliminatePotion(potion);
-                break;
-            }
-        }
-    }
 
     int weightRemained() {
         int weight = 0;

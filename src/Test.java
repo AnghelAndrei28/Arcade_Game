@@ -10,12 +10,12 @@ import org.json.simple.parser.ParseException;
 
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         System.out.println("We are ready to go! Please choose GUI or CLI");
         Scanner keyboard = new Scanner(System.in);
         String gameMode = keyboard.nextLine();
-        Game game = new Game();
+        Game game = Game.getInstance();
         game.run(gameMode);
 //        JSONParser parser = new JSONParser();
 //        CharacterFactory characterFactory = new CharacterFactory();
