@@ -16,7 +16,7 @@ public class FinishScreen {
         f.setSize(1600, 850);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JLabel finalLabel = new JLabel("Congratulations, " + currentCharacter.characterName);
+        JLabel finalLabel = new JLabel((currentCharacter.currentHealth == 0 ? "Game Over, " : "Congratulations, ") + currentCharacter.characterName);
         finalLabel.setBounds(400, 200, 800, 100);
         finalLabel.setFont(new Font("Serif", Font.PLAIN, 45));
         finalLabel.setHorizontalAlignment(SwingConstants.CENTER);

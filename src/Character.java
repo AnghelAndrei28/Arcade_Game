@@ -14,7 +14,7 @@ public class Character extends Entity{
     int basicDamage;
 
     public Character (String characterName, int exp, int level, Inventory inventory, String element) {
-        currentHealth = maxHealth = 1500;
+        currentHealth = maxHealth = 15;
         currentMana = maxMana =100;
         this.characterName = characterName;
         this.exp = exp;

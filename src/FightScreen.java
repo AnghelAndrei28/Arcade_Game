@@ -218,7 +218,7 @@ public class FightScreen extends JFrame {
         if(currentCharacter.currentHealth == 0) {
             frame.dispose();
             dispose();
-            new GameOver(currentAccount, currentCharacter);
+            new FinishScreen(currentAccount, currentCharacter);
         }
     }
 
