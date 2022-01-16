@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,11 +8,29 @@ import java.util.Random;
 public class FightScreen extends JFrame {
 
     private final JFrame frame;
+    Enemy enemy;
+    Character currentCharacter;
 
+    JLabel championHeart;
+    JLabel championMana;
+    JLabel enemyHeart;
+    JLabel enemyMana;
 
-    public FightScreen(JFrame frame, Enemy enemy, Character currentCharacter) {
+    DefaultListModel<Potion> potionDefaultListModel;
+    DefaultListModel<Spell> spellDefaultListModel;
+    JList<Potion> potionList;
+    JList<Spell> spellList;
+    JButton selectButton;
+    JScrollPane scrollPane;
+
+    Account currentAccount;
+
+    public FightScreen(JFrame frame, Enemy enemy, Character currentCharacter, Account currentAccount) {
         super("World of Marcel");
+        this.enemy = enemy;
+        this.currentCharacter = currentCharacter;
         this.frame = frame;
+        this.currentAccount = currentAccount;
         setSize(1200, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -56,41 +75,25 @@ public class FightScreen extends JFrame {
         ice.setBounds(1000, 420, 200, 30);
         background.add(ice);
 
-        JLabel championHeart = new JLabel(String.format("%d", currentCharacter.currentHealth), getLogo("src/Imagini/heart.png", 40, 30), JLabel.CENTER);
+        championHeart = new JLabel(String.format("%d", currentCharacter.currentHealth), getLogo("src/Imagini/heart.png", 40, 30), JLabel.CENTER);
         championHeart.setBounds(200, 250, 100, 30);
         championHeart.setForeground(Color.WHITE);
         background.add(championHeart);
-        JComponent parent1 = (JComponent) championHeart.getParent();
-        if(parent1 != null) {
-            parent1.revalidate();
-        }
 
-        JLabel championMana = new JLabel(String.format("%d", currentCharacter.currentMana), getLogo("src/Imagini/mana.png", 40, 30), JLabel.CENTER);
+        championMana = new JLabel(String.format("%d", currentCharacter.currentMana), getLogo("src/Imagini/mana.png", 40, 30), JLabel.CENTER);
         championMana.setBounds(200, 290, 100, 30);
         championMana.setForeground(Color.WHITE);
         background.add(championMana);
-        JComponent parent2 = (JComponent) championMana.getParent();
-        if(parent2 != null) {
-            parent2.revalidate();
-        }
 
-        JLabel enemyHeart = new JLabel(String.format("%d", enemy.currentHealth), getLogo("src/Imagini/heart.png", 40, 30), JLabel.CENTER);
+        enemyHeart = new JLabel(String.format("%d", enemy.currentHealth), getLogo("src/Imagini/heart.png", 40, 30), JLabel.CENTER);
         enemyHeart.setBounds(900, 250, 100, 30);
         enemyHeart.setForeground(Color.WHITE);
         background.add(enemyHeart);
-        JComponent parent3 = (JComponent) enemyHeart.getParent();
-        if(parent3 != null) {
-            parent3.revalidate();
-        }
 
-        JLabel enemyMana = new JLabel(String.format("%d", enemy.currentMana), getLogo("src/Imagini/mana.png", 40, 30), JLabel.CENTER);
+        enemyMana = new JLabel(String.format("%d", enemy.currentMana), getLogo("src/Imagini/mana.png", 40, 30), JLabel.CENTER);
         enemyMana.setBounds(900, 290, 100, 30);
         enemyMana.setForeground(Color.WHITE);
         background.add(enemyMana);
-        JComponent parent4 = (JComponent) enemyMana.getParent();
-        if(parent4 != null) {
-            parent4.revalidate();
-        }
 
         JLabel championLevel = new JLabel(String.format("Level: %d", currentCharacter.level), JLabel.CENTER);
         championLevel.setBounds(10, 320, 100, 30);
@@ -110,78 +113,57 @@ public class FightScreen extends JFrame {
         commands.setOpaque(false);
         commands.add(actionListLabel);
         JButton attackButton = new JButton("1. Basic attack");
-        attackButton.setEnabled(false);
         attackButton.setOpaque(false);
         attackButton.setContentAreaFilled(false);
         attackButton.setBorderPainted(false);
         attackButton.setForeground(Color.white);
-
+        attackButton.addActionListener(this::basicAttack);
         commands.add(attackButton);
+
         JButton spellButton = new JButton("2. Use Spell");
-        spellButton.setEnabled(false);
         spellButton.setOpaque(false);
         spellButton.setContentAreaFilled(false);
         spellButton.setBorderPainted(false);
         spellButton.setForeground(Color.white);
+        spellButton.addActionListener(this::spellAttack);
         commands.add(spellButton);
+
         JButton potionButton = new JButton("3. Use potion");
-        potionButton.setEnabled(false);
         potionButton.setOpaque(false);
         potionButton.setContentAreaFilled(false);
         potionButton.setBorderPainted(false);
         potionButton.setForeground(Color.white);
+        potionButton.addActionListener(this::potionUse);
         commands.add(potionButton);
         background.add(commands);
-        JButton startButton = new JButton("Start");
-        startButton.setBackground(Color.RED);
-        startButton.setForeground(Color.WHITE);
-        commands.add(startButton);
-        startButton.addActionListener(new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                boolean turn = true;
-                while(currentCharacter.currentHealth > 0 && enemy.currentHealth > 0) {
-                    potionButton.setEnabled(false);
-                    spellButton.setEnabled(false);
-                    attackButton.setEnabled(false);
-                    if(turn) {
-                        potionButton.setEnabled(true);
-                        spellButton.setEnabled(true);
-                        attackButton.setEnabled(true);
-                        potionButton.addActionListener(new ActionListener() {
-
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                System.out.println("Multa mue");
-                            }
-                        });
-                    } else {
-                        Random random = new Random();
-                        if (random.nextBoolean()) {
-                            int indexSpell = random.nextInt(enemy.spells.size());
-                            enemy.useSpell(enemy.spells.get(indexSpell), currentCharacter);
-                        } else {
-                            enemy.getDamage(null, currentCharacter);
-                        }
-                        championHeart.setText(String.format("%d", currentCharacter.currentHealth));
-                        enemyMana.setText(String.format("%d", enemy.currentMana));
-                    }
-                    turn = !turn;
-                }
-                Random random = new Random();
-                if (currentCharacter.currentHealth > 0) {
-                    int experienceGained = 80;
-                    if ((random.nextInt(5 - 1) + 1) != 1) {
-                        currentCharacter.inventory.addCash(80);
-                    }
-                    currentCharacter.exp += experienceGained;
-                    if (currentCharacter.exp >= currentCharacter.upgradeExp) {
-                        currentCharacter.levelUp(currentCharacter.exp - currentCharacter.upgradeExp);
-                    }
-                }
-            }
-        });
+        spellDefaultListModel = new DefaultListModel<>();
+        spellDefaultListModel.addAll(currentCharacter.spells);
+        potionDefaultListModel = new DefaultListModel<>();
+        potionDefaultListModel.addAll(currentCharacter.inventory.potions);
+        spellList = new JList<>(spellDefaultListModel);
+        potionList = new JList<>(potionDefaultListModel);
+        spellList.addListSelectionListener(this::valueChanged);
+        potionList.addListSelectionListener(this::valueChanged);
+        spellList.setLayoutOrientation(JList.VERTICAL);
+        potionList.setLayoutOrientation(JList.VERTICAL);
+        spellList.setOpaque(false);
+        potionList.setOpaque(false);
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(450, 20, 300, 180);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setForeground(Color.white);
+        selectButton = new JButton("Select");
+        selectButton.setEnabled(false);
+        selectButton.setBounds(550, 200 , 100, 30);
+        selectButton.addActionListener(this::selectButtonClicked);
+        selectButton.setOpaque(false);
+        selectButton.setContentAreaFilled(false);
+        selectButton.setBorderPainted(false);
+        selectButton.setForeground(Color.white);
+        background.add(scrollPane);
+        background.add(selectButton);
     }
 
     public ImageIcon getLogo(String imageName, int width, int height) {
@@ -191,9 +173,81 @@ public class FightScreen extends JFrame {
         return new ImageIcon(newimg);
     }
 
-    public void exit(ActionEvent e) {
+    public void exit() {
+        currentCharacter.exp += 80;
+        if(currentCharacter.exp >= currentCharacter.upgradeExp) {
+            currentCharacter.levelUp();
+        }
         frame.setVisible(true);
         this.setVisible(false);
         this.dispose();
+    }
+
+    public void basicAttack(ActionEvent e) {
+        scrollPane.setViewportView(null);
+        currentCharacter.getDamage(null, enemy);
+        if (enemy.currentHealth != 0) {
+            enemyAttack();
+        } else {
+            exit();
+        }
+        enemyHeart.setText(String.format("%d", enemy.currentHealth));
+        championMana.setText(String.format("%d", currentCharacter.currentMana));
+    }
+
+    public void spellAttack(ActionEvent e) {
+        potionList.clearSelection();
+        scrollPane.setViewportView(spellList);
+    }
+
+    public void potionUse(ActionEvent e) {
+        spellList.clearSelection();
+        scrollPane.setViewportView(potionList);
+    }
+
+    public void enemyAttack() {
+        Random random = new Random();
+        if (random.nextBoolean()) {
+            int indexSpell = random.nextInt(enemy.spells.size());
+            enemy.useSpell(enemy.spells.get(indexSpell), currentCharacter);
+        } else {
+            enemy.getDamage(null, currentCharacter);
+        }
+        championHeart.setText(String.format("%d", currentCharacter.currentHealth));
+        enemyMana.setText(String.format("%d", enemy.currentMana));
+        if(currentCharacter.currentHealth == 0) {
+            frame.dispose();
+            dispose();
+            new GameOver(currentAccount, currentCharacter);
+        }
+    }
+
+    public void  valueChanged(ListSelectionEvent e) {
+        if(spellList.isSelectionEmpty() && potionList.isSelectionEmpty()) {
+            selectButton.setEnabled(false);
+            return;
+        }
+        selectButton.setEnabled(true);
+    }
+
+    public void selectButtonClicked(ActionEvent e) {
+        if(spellList.isSelectionEmpty()) {
+            int index = potionList.getSelectedIndex();
+            currentCharacter.inventory.usePotion(currentCharacter, currentCharacter.inventory.potions.get(index));
+            potionDefaultListModel.removeElementAt(index);
+            enemyAttack();
+        } else if(potionList.isSelectionEmpty()){
+            int index = spellList.getSelectedIndex();
+            currentCharacter.useSpell(currentCharacter.spells.get(index), enemy);
+            if(enemy.currentHealth != 0) {
+                enemyAttack();
+            } else {
+                exit();
+            }
+        }
+        championHeart.setText(String.format("%d", currentCharacter.currentHealth));
+        enemyHeart.setText(String.format("%d", enemy.currentHealth));
+        championMana.setText(String.format("%d", currentCharacter.currentMana));
+        scrollPane.setViewportView(null);
     }
 }

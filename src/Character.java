@@ -64,26 +64,31 @@ public class Character extends Entity{
     @Override
     void receiveDamage(int health) {
         currentHealth -= health;
+        if(currentHealth < 0) {
+            currentHealth = 0;
+        }
     }
 
     @Override
     void getDamage(Spell spell, Entity enemy) {}
 
-    void buy (Potion potion) {
+    boolean buy (Potion potion) {
         if (inventory.getCash() >= potion.getPrice() && inventory.weightRemained() >= potion.getWeight()) {
             inventory.addCash(-potion.getPrice());
             inventory.addPotion(potion);
+            return true;
         } else {
             System.out.println("Not enough money");
+            return false;
         }
     }
 
     //Exp needed to level up increases with 10 exp/level
-    void levelUp (int bonusExp) {
+    void levelUp () {
         System.out.println("Character levelled up");
+        exp -= upgradeExp;
         upgradeExp = upgradeExp + 10;
         level++;
-        exp = bonusExp;
     }
 
     @Override
@@ -138,6 +143,7 @@ class Warrior extends Character {
                 }
             } else {
                 enemy.receiveDamage(basicDamage + level);
+                regenMana(10);
             }
         }
 
@@ -194,6 +200,7 @@ class Mage extends Character {
                 }
             } else {
                 enemy.receiveDamage(basicDamage + level);
+                regenMana(10);
             }
         }
     }
@@ -248,6 +255,7 @@ class Rogue extends Character {
                 }
             } else {
                 enemy.receiveDamage(basicDamage + level);
+                regenMana(10);
             }
         }
     }

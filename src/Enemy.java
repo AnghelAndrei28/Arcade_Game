@@ -46,6 +46,9 @@ public class Enemy extends Entity implements CellElement {
         Random r = new Random();
         if(r.nextBoolean()) {
             currentHealth -= health;
+            if(currentHealth < 0) {
+                currentHealth = 0;
+            }
         } else {
             System.out.println("Dodge!!!!!!");
         }
@@ -76,6 +79,7 @@ public class Enemy extends Entity implements CellElement {
             } else {
                 enemy.receiveDamage(20);
             }
+            regenMana(10);
         }
     }
 }

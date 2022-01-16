@@ -314,7 +314,7 @@ public class Game {
                         }
                         currentCharacter.exp += experienceGained;
                         if (currentCharacter.exp >= currentCharacter.upgradeExp) {
-                            currentCharacter.levelUp(currentCharacter.exp - currentCharacter.upgradeExp);
+                            currentCharacter.levelUp();
                         }
                     } else {
                         System.out.println("Game over");

@@ -17,9 +17,9 @@ public class HomeScreen {
     Character currentCharacter;
     JButton shop;
     JLabel cashNotificationLabel;
-    int expGained = 0;
-    int levelsGained = 0;
-    int killedEnemies = 0;
+    static int expGained = 0;
+    static int levelsGained = 0;
+    static int killedEnemies = 0;
     Account currentAccount;
     public HomeScreen(Account currentAccount, Character character, int x, int y) {
         this.currentAccount = currentAccount;
@@ -56,11 +56,6 @@ public class HomeScreen {
         f.setSize(1600, 850);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        /*
-          TODO: De generat mapa cu tot ce are nevoie
-          TODO: Facut cell-urile patrate
-          TODO: PWP
-        */
         JPanel panelInformation = new JPanel();
         panelInformation.setBounds(1000, 0, 600, 800);
         JPanel panelStory = new JPanel();
@@ -91,12 +86,12 @@ public class HomeScreen {
         commands.add(bottomButton);
         bottomButton.addActionListener(this::goSouth);
         commands.add(new JPanel());
-        commands.setBounds(1075 , 200, 400, 200);
+        commands.setBounds(1050 , 200, 400, 200);
         shop = new JButton("Shop");
-        shop.setBounds(1150, 75, 100, 50);
+        shop.setBounds(1200, 75, 100, 50);
         cashNotificationLabel = new JLabel("You found cash on your way!");
         cashNotificationLabel.setVisible(false);
-        cashNotificationLabel.setBounds(1200, 700, 200, 50);
+        cashNotificationLabel.setBounds(1250, 700, 200, 50);
         shop.setEnabled(false);
         shop.addActionListener(this::shopPAGE);
         panelBoard.revalidate();
@@ -183,19 +178,19 @@ public class HomeScreen {
                 break;
             case FINISH:
                 f.dispose();
-                new FinishScreen(currentAccount ,currentCharacter, expGained, levelsGained, killedEnemies);
+                new FinishScreen(currentAccount ,currentCharacter);
                 break;
             case ENEMY:
-                //TODO: Fight Screen
-                //FightScreen f3 = new FightScreen(f, (Enemy)currentCell.getCell().cellElement, currentCharacter);
-                //f3.setVisible(true);
-                //f.setVisible(false);
-                if (currentCharacter.exp < 80) {
-                    levelsGained++;
+                if(!currentCell.getCell().visited) {
+                    FightScreen f3 = new FightScreen(f, (Enemy) currentCell.getCell().cellElement, currentCharacter, currentAccount);
+                    f3.setVisible(true);
+                    f.setVisible(false);
+                    if (currentCharacter.exp < 80) {
+                        levelsGained++;
+                    }
+                    expGained += 80;
+                    killedEnemies++;
                 }
-                currentCharacter.levelUp(80);
-                expGained += 80;
-                killedEnemies++;
                 break;
         }
         currentCell.getCell().visited = true;

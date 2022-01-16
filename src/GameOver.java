@@ -9,14 +9,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class FinishScreen {
-    public FinishScreen(Account currentAccount,Character currentCharacter) {
+public class GameOver {
+    public GameOver(Account currentAccount,Character currentCharacter) {
         JFrame f = new JFrame("World of Marcel");
         f.setLayout(null);
         f.setSize(1600, 850);
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JLabel finalLabel = new JLabel("Congratulations, " + currentCharacter.characterName);
+        JLabel finalLabel = new JLabel("GAME OVER, " + currentCharacter.characterName);
         finalLabel.setBounds(400, 200, 800, 100);
         finalLabel.setFont(new Font("Serif", Font.PLAIN, 45));
         finalLabel.setHorizontalAlignment(SwingConstants.CENTER);

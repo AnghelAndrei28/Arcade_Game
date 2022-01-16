@@ -13,6 +13,7 @@ public class ShopPage extends JFrame{
     JLabel cash;
     JList<Potion> list2;
     DefaultListModel<Potion> defaultListModel2;
+    JLabel notMoneyLabel;
     public ShopPage(Cell currentCell, JFrame frame, Character currentCharacter) {
         super("World of Marcel");
         this.currentCharacter = currentCharacter;
@@ -60,6 +61,12 @@ public class ShopPage extends JFrame{
         infoPanel.add(buttonsPanel, BorderLayout.PAGE_END);
         infoPanel.add(scrollPane2, BorderLayout.CENTER);
         add(infoPanel);
+
+        notMoneyLabel = new JLabel("Not enough money");
+        notMoneyLabel.setVisible(false);
+        notMoneyLabel.setBounds(750, 400, 100, 50);
+        notMoneyLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(notMoneyLabel);
     }
 
     public void exit(ActionEvent e) {
@@ -70,10 +77,14 @@ public class ShopPage extends JFrame{
 
     public void buy(ActionEvent e) {
         int index = list.getSelectedIndex();
-        currentCharacter.buy(((Shop)(currentCell.cellElement)).getPotion(index));
-        defaultListModel2.addElement(defaultListModel.getElementAt(index));
-        defaultListModel.removeElementAt(index);
-        cash.setText(String.valueOf(currentCharacter.inventory.getCash()));
+        notMoneyLabel.setVisible(false);
+        if(!currentCharacter.buy(((Shop) (currentCell.cellElement)).getPotion(index))){
+            notMoneyLabel.setVisible(true);
+        } else {
+            defaultListModel2.addElement(defaultListModel.getElementAt(index));
+            defaultListModel.removeElementAt(index);
+            cash.setText(String.valueOf(currentCharacter.inventory.getCash()));
+        }
         System.out.println(currentCharacter.inventory.potions);
     }
 

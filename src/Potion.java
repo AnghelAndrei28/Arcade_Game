@@ -56,7 +56,7 @@ class ManaPotion implements Potion{
     ManaPotion() {
         price = 20;
         weight = 10;
-        value = 20;
+        value = 30;
     }
 
     @Override
