@@ -14,7 +14,7 @@ class HealthPotion implements Potion{
     HealthPotion() {
         price = 10;
         weight = 8;
-        value = 100;
+        value = 500;
     }
 
     @Override

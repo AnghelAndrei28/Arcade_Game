@@ -6,13 +6,13 @@ public class Enemy extends Entity implements CellElement {
         Random r = new Random();
         int lowHealth = 300;
         int highHealth = 400;
-        int lowMana = 20;
+        int lowMana = 40;
         int highMana = 60;
         currentHealth = maxHealth = r.nextInt(highHealth - lowHealth) + lowHealth;
         currentMana = maxMana = r.nextInt(highMana - lowMana) + lowMana;
-        int numberOfSpells = r.nextInt(4 - 2) + 2;
+        int numberOfSpells = r.nextInt(4 - 1) + 2;
         for (int i = 1; i <= numberOfSpells; i++) {
-            int spellNumber = r.nextInt(3 - 1) + 1;
+            int spellNumber = r.nextInt(3) + 1;
             switch (spellNumber) {
                 case 1:
                     spells.add(new Fire());
@@ -59,10 +59,10 @@ public class Enemy extends Entity implements CellElement {
                 if (r.nextBoolean()) {
                     enemy.receiveDamage(spell.damage * 2);
                     System.out.println("Critical hit!");
-                    System.out.println("Damage: " + spell.damage + "from" + spell.getClass());
+                    System.out.println("Damage: " + spell.damage + " from " + spell.getClass());
                 } else {
                     enemy.receiveDamage(spell.damage);
-                    System.out.println("Damage" + spell.damage + spell.getClass());
+                    System.out.println("Damage " + spell.damage + " from " + spell.getClass());
                 }
             } else {
                 System.out.println("Protected against the spell " + spell.getClass());

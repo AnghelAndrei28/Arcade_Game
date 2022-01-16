@@ -65,14 +65,20 @@ public class Account {
 
             Information build() {
                 Information information = new Information(this);
-                if(validateInformation(information)) {
-//                    return information;
+                try {
+                    if(validateInformation(information)) {
+                        return information;
+                    } else {
+                        throw new InformationIncompleteException();
+                    }
+                }catch (InformationIncompleteException e) {
+                    e.printStackTrace();
+                    return null;
                 }
-                return information;
             }
 
             private boolean validateInformation(Information information) {
-                return true;
+                return !information.getCredentials().getPassword().isEmpty() && !information.getCredentials().getEmail().isEmpty() && !information.getName().isEmpty();
             }
         }
 
@@ -94,5 +100,10 @@ public class Account {
                 ", characters=" + characters +
                 ", playedGames=" + playedGames +
                 '}';
+    }
+}
+class InformationIncompleteException extends Exception{
+    public InformationIncompleteException() {
+        super("Information Incomplete");
     }
 }

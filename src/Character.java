@@ -6,6 +6,7 @@ public class Character extends Entity{
     int x, y;
     Inventory inventory;
     int exp;
+    int upgradeExp;
     int level;
     int strength;
     int charisma;
@@ -19,6 +20,7 @@ public class Character extends Entity{
         this.exp = exp;
         this.level = level;
         this.inventory = inventory;
+        upgradeExp = 200;
         switch (element) {
             case "fire":
                 fire = true;
@@ -69,39 +71,24 @@ public class Character extends Entity{
 
     void buy (Potion potion) {
         if (inventory.getCash() >= potion.getPrice() && inventory.weightRemained() >= potion.getWeight()) {
+            inventory.addCash(-potion.getPrice());
             inventory.addPotion(potion);
         } else {
             System.out.println("Not enough money");
         }
     }
 
-
+    //Exp needed to level up increases with 10 exp/level
+    void levelUp (int bonusExp) {
+        System.out.println("Character levelled up");
+        upgradeExp = upgradeExp + 10;
+        level++;
+        exp = bonusExp;
+    }
 
     @Override
     public String toString() {
         return "Character{" +
-                "characterName='" + characterName + '\'' +
-                ", x=" + x +
-                ", y=" + y +
-                ", inventory=" + inventory +
-                ", exp=" + exp +
-                ", level=" + level +
-                ", strength=" + strength +
-                ", charisma=" + charisma +
-                ", dexterity=" + dexterity +
-                ", spells=" + spells +
-                ", currentHealth=" + currentHealth +
-                ", maxHealth=" + maxHealth +
-                ", currentMana=" + currentMana +
-                ", maxMana=" + maxMana +
-                ", fire=" + fire +
-                ", ice=" + ice +
-                ", earth=" + earth +
-                '}';
-    }
-
-    public String toString2() {
-        return this.getClass() + " {" +
                 "characterName='" + characterName + '\'' +
                 ", exp=" + exp +
                 ", level=" + level +
@@ -155,6 +142,15 @@ class Warrior extends Character {
         }
 
     }
+
+    @Override
+    public String toString() {
+        return "Warrior{" +
+                "characterName='" + characterName + '\'' +
+                ", exp=" + exp +
+                ", level=" + level +
+                '}';
+    }
 }
 
 class Mage extends Character {
@@ -201,6 +197,14 @@ class Mage extends Character {
             }
         }
     }
+    @Override
+    public String toString() {
+        return "Mage{" +
+                "characterName='" + characterName + '\'' +
+                ", exp=" + exp +
+                ", level=" + level +
+                '}';
+    }
 }
 
 class Rogue extends Character {
@@ -246,5 +250,13 @@ class Rogue extends Character {
                 enemy.receiveDamage(basicDamage + level);
             }
         }
+    }
+    @Override
+    public String toString() {
+        return "Rogue{" +
+                "characterName='" + characterName + '\'' +
+                ", exp=" + exp +
+                ", level=" + level +
+                '}';
     }
 }

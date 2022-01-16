@@ -4,10 +4,11 @@ import java.util.List;
 public class Inventory {
     List<Potion> potions = new ArrayList<Potion>();
     private final int maxWeight;
-    private int cash = 50;
+    private int cash;
 
     public Inventory(int maxWeight) {
         this.maxWeight = maxWeight;
+        this.cash = 50;
     }
 
     void addPotion (Potion potion) {

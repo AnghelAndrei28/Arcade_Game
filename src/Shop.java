@@ -7,7 +7,7 @@ public class Shop implements CellElement{
 
     Shop() {
         Random r = new Random();
-        int numberOfPotions = r.nextInt(4 - 2) + 2;
+        int numberOfPotions = r.nextInt(4 - 1) + 2;
         for (int i = 1; i <= numberOfPotions; i++) {
             if(r.nextBoolean()) {
                 potionList.add(new HealthPotion());
@@ -35,5 +35,6 @@ public class Shop implements CellElement{
             System.out.println(i + ". " + potion);
             i++;
         }
+        System.out.println(i + ". Leave");
     }
 }
